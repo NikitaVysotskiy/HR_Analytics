@@ -16,50 +16,88 @@ def show_info(df):
     df.describe()
     df["sales"].unique()
     df["salary"].unique()
-    df["sales"].unique()
-    df["salary"].unique()
     df.corr()
 
 
 def show_plots(df):
     labels = "Left", "Stayed"
-    left_size = df.loc[df["left"] == 1].shape[0]
-    print("Number of employees, who had left: {0}".format(left_size))
-    print("Number of employees, who stayed: {0}".format(df.shape[0] - left_size))
-    sizes = [left_size, df.shape[0] - left_size]
     colors = ['red', 'blue']
     explode = (0, 0.1)
-    plt.pie(sizes, explode=explode, labels=labels, colors=colors,
+    plt.pie(df["left"].value_counts(), explode=explode, labels=labels, colors=colors,
             autopct='%1.1f%%', startangle=90)
     plt.axis('equal')
     plt.show()
 
     labels = df["salary"].unique()
-    salary_distribution = []
-    for salary in labels:
-        size = df.loc[df["salary"] == salary].shape[0]
-        print("Number of employees with {0} salary: {1}".format(salary, size))
-        salary_distribution.append(size)
-
+    print(df["salary"].value_counts())
     colors = ['grey', 'magenta', "green"]
     explode = (0, 0, 0.1)
-    plt.pie(salary_distribution, explode=explode, labels=labels, colors=colors,
+    plt.pie(df["salary"].value_counts(), explode=explode, labels=labels, colors=colors,
             autopct='%1.1f%%', startangle=90)
     plt.axis('equal')
     plt.show()
 
     labels = df["sales"].unique()
-    sales_distribution = []
-    explode = []
-    for sales in labels:
-        size = df.loc[df["sales"] == sales].shape[0]
-        print("Number of employees in {0}: {1}".format(sales, size))
-        sales_distribution.append(size)
-        explode.append(0.1) if size < 1000 else explode.append(0)
-
-    plt.pie(sales_distribution, explode=explode, labels=labels, autopct='%1.1f%%', startangle=90)
+    plt.pie(df["sales"].value_counts(), labels=labels, autopct='%1.1f%%', startangle=90)
     plt.axis('equal')
+    plt.show()
 
+    l_sat = df.loc[df["left"] == 1]["satisfaction_level"]
+    s_sat = df.loc[df["left"] == 0]["satisfaction_level"]
+    l_tsc = df.loc[df["left"] == 1]["time_spend_company"]
+    s_tsc = df.loc[df["left"] == 0]["time_spend_company"]
+    plt.figure(figsize=(12, 4))
+    plt.xlabel("satisfaction_level")
+    plt.ylabel("time_spend_company")
+    scat_s = plt.scatter(s_sat, s_tsc, color='#3979BC')
+    scat_l = plt.scatter(l_sat, l_tsc, color="#CC2B2B")
+    plt.legend((scat_s, scat_l),
+               ("left = 0", "left = 1"),
+               loc="upper right")
+    plt.show()
+
+    l_sat = df.loc[df["left"] == 1]["satisfaction_level"]
+    s_sat = df.loc[df["left"] == 0]["satisfaction_level"]
+    l_wa = df.loc[df["left"] == 1]["Work_accident"]
+    s_wa = df.loc[df["left"] == 0]["Work_accident"]
+    plt.figure(figsize=(15, 2))
+    plt.xlabel("satisfaction_level")
+    plt.ylabel("work_accident")
+    plt.yticks([0, 1])
+    scat_s = plt.scatter(s_sat, s_wa, color='#3979BC')
+    scat_l = plt.scatter(l_sat, l_wa, color="#CC2B2B")
+    plt.legend((scat_s, scat_l),
+               ("left = 0", "left = 1"),
+               loc="upper right")
+    plt.show()
+
+    l_sat = df.loc[df["left"] == 1]["satisfaction_level"]
+    s_sat = df.loc[df["left"] == 0]["satisfaction_level"]
+    l_sal = df.loc[df["left"] == 1]["salary"]
+    s_sal = df.loc[df["left"] == 0]["salary"]
+    plt.figure(figsize=(15, 2))
+    plt.xlabel("satisfaction_level")
+    plt.ylabel("salary")
+    plt.yticks([1, 2, 3])
+    scat_s = plt.scatter(s_sat, s_sal, color='#3979BC')
+    scat_l = plt.scatter(l_sat, l_sal, color="#CC2B2B")
+    plt.legend((scat_s, scat_l),
+               ("left = 0", "left = 1"),
+               loc="upper right")
+    plt.show()
+
+    l_sat = df.loc[df["left"] == 1]["satisfaction_level"]
+    s_sat = df.loc[df["left"] == 0]["satisfaction_level"]
+    l_ev = df.loc[df["left"] == 1]["last_evaluation"]
+    s_ev = df.loc[df["left"] == 0]["last_evaluation"]
+    plt.figure(figsize=(17, 10))
+    plt.xlabel("satisfaction_level")
+    plt.ylabel("last_evaluation")
+    scat_s = plt.scatter(s_sat, s_ev, color='#3979BC')
+    scat_l = plt.scatter(l_sat, l_ev, color="#CC2B2B")
+    plt.legend((scat_s, scat_l),
+               ("left = 0", "left = 1"),
+               loc="upper right")
     plt.show()
 
 
@@ -99,12 +137,14 @@ def make_predictions(df):
 if __name__ == '__main__':
     df = pd.read_csv("HR.csv")
 
-    #show_info(df)
-    #show_plots(df)
+  
 
     df = df.replace(['sales', 'accounting', 'hr', 'technical', 'support', 'management', 'IT', 'product_mng',
                          'marketing', 'RandD'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     df = df.replace(['low', 'medium', 'high'], [1, 2, 3])
+
+    show_info(df)
+    show_plots(df)
 
     make_predictions(df)
 
@@ -135,3 +175,4 @@ if __name__ == '__main__':
     # print(np.array(errors).min())
     # print(np.array(errors).max())
     # print(np.array(errors).mean())
+    

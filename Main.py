@@ -7,6 +7,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier
 
+
 # from itertools import combinations as combs
 
 
@@ -26,22 +27,23 @@ def show_plots(df):
     plt.pie(df["left"].value_counts(), explode=explode, labels=labels, colors=colors,
             autopct='%1.1f%%', startangle=90)
     plt.axis('equal')
-    plt.show()
+    # plt.savefig("pie1.png")
+    # plt.show()
 
     labels = df["salary"].unique()
-    print(df["salary"].value_counts())
     colors = ['grey', 'magenta', "green"]
     explode = (0, 0, 0.1)
     plt.pie(df["salary"].value_counts(), explode=explode, labels=labels, colors=colors,
             autopct='%1.1f%%', startangle=90)
     plt.axis('equal')
-    plt.show()
+    # plt.savefig("pie2.png")
+    # plt.show()
 
     labels = df["sales"].unique()
     plt.pie(df["sales"].value_counts(), labels=labels, autopct='%1.1f%%', startangle=90)
     plt.axis('equal')
-    plt.show()
-
+    # plt.savefig("pie3.png")
+    # plt.show()
     l_sat = df.loc[df["left"] == 1]["satisfaction_level"]
     s_sat = df.loc[df["left"] == 0]["satisfaction_level"]
     l_tsc = df.loc[df["left"] == 1]["time_spend_company"]
@@ -54,8 +56,9 @@ def show_plots(df):
     plt.legend((scat_s, scat_l),
                ("left = 0", "left = 1"),
                loc="upper right")
-    plt.show()
-
+    # plt.savefig("scat1.png")
+    # plt.show()
+    #
     l_sat = df.loc[df["left"] == 1]["satisfaction_level"]
     s_sat = df.loc[df["left"] == 0]["satisfaction_level"]
     l_wa = df.loc[df["left"] == 1]["Work_accident"]
@@ -69,7 +72,7 @@ def show_plots(df):
     plt.legend((scat_s, scat_l),
                ("left = 0", "left = 1"),
                loc="upper right")
-    plt.show()
+    # plt.show()
 
     l_sat = df.loc[df["left"] == 1]["satisfaction_level"]
     s_sat = df.loc[df["left"] == 0]["satisfaction_level"]
@@ -84,7 +87,7 @@ def show_plots(df):
     plt.legend((scat_s, scat_l),
                ("left = 0", "left = 1"),
                loc="upper right")
-    plt.show()
+    # plt.show()
 
     l_sat = df.loc[df["left"] == 1]["satisfaction_level"]
     s_sat = df.loc[df["left"] == 0]["satisfaction_level"]
@@ -98,7 +101,7 @@ def show_plots(df):
     plt.legend((scat_s, scat_l),
                ("left = 0", "left = 1"),
                loc="upper right")
-    plt.show()
+    # plt.show()
 
 
 def make_predictions(df):
@@ -137,18 +140,16 @@ def make_predictions(df):
 if __name__ == '__main__':
     df = pd.read_csv("HR.csv")
 
-  
-
     df = df.replace(['sales', 'accounting', 'hr', 'technical', 'support', 'management', 'IT', 'product_mng',
                          'marketing', 'RandD'], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     df = df.replace(['low', 'medium', 'high'], [1, 2, 3])
 
-    show_info(df)
-    show_plots(df)
+    # show_info(df)
+    # show_plots(df)
 
-    make_predictions(df)
+    # make_predictions(df)
 
-    # tried to find out the best combination of features(with lowest error)
+    # tried to find out the best combination of features(with lowest error) for Naive Bayes
     # ---------------------------------------------------------
     # ind = np.array([
     #     "satisfaction_level",
@@ -175,4 +176,8 @@ if __name__ == '__main__':
     # print(np.array(errors).min())
     # print(np.array(errors).max())
     # print(np.array(errors).mean())
-    
+
+
+
+
+
